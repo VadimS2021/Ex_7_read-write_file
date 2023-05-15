@@ -1,4 +1,5 @@
 from pprint import pprint
+import os
 
 print('\nЗадача №1\n')
 
@@ -45,3 +46,30 @@ def get_shop_list_by_dishes(dishes, person_count):
 
 get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2)
 get_shop_list_by_dishes(['Утка по-пекински', 'Фахитос'], 3)
+
+
+current = os.getcwd()
+
+with open(os.path.join(current, '1.txt'), encoding='utf-8') as file_1, open(os.path.join(current, '2.txt'),
+     encoding='utf-8') as file_2, open(os.path.join(current, '3.txt'), encoding='utf-8') as file_3, \
+     open(os.path.join(current, 'new.txt'), 'w', encoding='utf-8') as new_file:
+    dict_files = {
+        file_1: [len(file_1.readlines()), '1.txt'],
+        file_2: [len(file_2.readlines()), '2.txt'],
+        file_3: [len(file_3.readlines()), '3.txt']
+    }
+
+    sort_dict_files = dict(sorted(dict_files.items(), key=lambda item: item[1][0]))
+
+    file_1.seek(0)
+    file_2.seek(0)
+    file_3.seek(0)
+
+    for keys, values in sort_dict_files.items():
+        new_file.writelines(f'{values[1]}\n')
+        new_file.writelines(f'{values[0]}\n')
+        for line in keys.readlines():
+            new_file.writelines(f'{line}')
+        new_file.writelines('\n')
+
+    pprint(sort_dict_files, sort_dicts=False)
